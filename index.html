@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Invisible Drum Kit Web</title>
+  <!-- MediaPipe dependencies -->
+  <script src="https://cdn.jsdelivr.net/npm/@mediapipe/camera_utils/camera_utils.js" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@mediapipe/control_utils/control_utils.js" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@mediapipe/drawing_utils/drawing_utils.js" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@mediapipe/hands/hands.js" crossorigin="anonymous"></script>
+  <style>
+    body {
+      margin: 0;
+      overflow: hidden;
+      background-color: #121212;
+      color: white;
+      font-family: Arial, sans-serif;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    #videoElement {
+      display: none;
+    }
+    #canvasElement {
+      width: 100vw;
+      height: 100vh;
+      object-fit: cover;
+      /* CSS flipping for the mirror effect */
+      transform: scaleX(-1);
+    }
+    #overlay {
+      position: absolute;
+      top: 20px;
+      left: 20px;
+      z-index: 10;
+      background: rgba(0,0,0,0.5);
+      padding: 10px 20px;
+      border-radius: 10px;
+    }
+    #startBtn {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      padding: 20px 40px;
+      font-size: 24px;
+      background-color: #00ffaa;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      z-index: 20;
+    }
+    #startBtn:hover {
+        background-color: #00cc88;
+    }
+  </style>
+</head>
+<body>
+
+  <button id="startBtn">Start Camera & Play</button>
+  
+  <div id="overlay">
+    <h2>Web Drum Kit</h2>
+    <p id="statusText">Click "Start" to begin...</p>
+  </div>
+
+  <video id="videoElement" autoplay playsinline></video>
+  <canvas id="canvasElement"></canvas>
+
+  <script>
+    const videoElement = document.getElementById('videoElement');
+    const canvasElement = document.getElementById('canvasElement');
+    const canvasCtx = canvasElement.getContext('2d');
+    const statusText = document.getElementById('statusText');
+    const startBtn = document.getElementById('startBtn');
+
+    // Web Audio API context for generating basic drum sounds in the browser
+    let audioCtx = null;
+
+    function playSound(type) {
+      if (!audioCtx) return;
+      const osc = audioCtx.createOscillator();
+      const gainNode = audioCtx.createGain();
+      
+      osc.connect(gainNode);
+      gainNode.connect(audioCtx.destination);
+      
+      const now = audioCtx.currentTime;
+      if (type === 'kick') {
+        osc.frequency.setValueAtTime(150, now);
+        osc.frequency.exponentialRampToValueAtTime(0.01, now + 0.5);
+        gainNode.gain.setValueAtTime(1, now);
+        gainNode.gain.exponentialRampToValueAtTime(0.01, now + 0.5);
+        osc.start(now);
+        osc.stop(now + 0.5);
+      } else if (type === 'snare') {
+        osc.type = 'triangle';
+        osc.frequency.setValueAtTime(250, now);
+        gainNode.gain.setValueAtTime(1, now);
+        gainNode.gain.exponentialRampToValueAtTime(0.01, now + 0.2);
+        osc.start(now);
+        osc.stop(now + 0.2);
+      } else if (type === 'hihat') {
+        osc.type = 'square';
+        osc.frequency.setValueAtTime(500, now);
+        gainNode.gain.setValueAtTime(0.3, now);
+        gainNode.gain.exponentialRampToValueAtTime(0.01, now + 0.1);
+        osc.start(now);
+        osc.stop(now + 0.1);
+      }
+    }
+
+    // A simplified pad layout for the web version
+    const drumPads = [
+      { name: "Hi-Hat", color: "#ccff00", x: 0.1, y: 0.5, w: 0.2, h: 0.3, sound: "hihat", lastHit: 0 },
+      { name: "Snare", color: "#00ffff", x: 0.4, y: 0.5, w: 0.2, h: 0.3, sound: "snare", lastHit: 0 },
+      { name: "Kick", color: "#cc00ff", x: 0.7, y: 0.5, w: 0.2, h: 0.3, sound: "kick", lastHit: 0 }
+    ];
+
+    function resizeCanvas() {
+      canvasElement.width = window.innerWidth;
+      canvasElement.height = window.innerHeight;
+    }
+    window.addEventListener('resize', resizeCanvas);
+    resizeCanvas();
+
+    function onResults(results) {
+      canvasCtx.save();
+      canvasCtx.clearRect(0, 0, canvasElement.width, canvasElement.height);
+      
+      canvasCtx.drawImage(results.image, 0, 0, canvasElement.width, canvasElement.height);
+
+      const now = Date.now();
+
+      // Draw drum pads
+      drumPads.forEach(pad => {
+        const px = pad.x * canvasElement.width;
+        const py = pad.y * canvasElement.height;
+        const pw = pad.w * canvasElement.width;
+        const ph = pad.h * canvasElement.height;
+        
+        canvasCtx.fillStyle = pad.color + "80"; // Add opacity
+        if (now - pad.lastHit < 150) {
+            canvasCtx.fillStyle = "#ffffff"; // Flash white on hit
+        }
+        canvasCtx.beginPath();
+        canvasCtx.roundRect(px, py, pw, ph, 10);
+        canvasCtx.fill();
+        
+        canvasCtx.fillStyle = "black";
+        canvasCtx.font = "30px Arial";
+        canvasCtx.fillText(pad.name, px + pw/2 - 40, py + ph/2 + 10);
+      });
+
+      if (results.multiHandLandmarks) {
+        for (const landmarks of results.multiHandLandmarks) {
+          drawConnectors(canvasCtx, landmarks, HAND_CONNECTIONS, {color: '#00FF00', lineWidth: 5});
+          drawLandmarks(canvasCtx, landmarks, {color: '#FF0000', lineWidth: 2});
+
+          // Index finger tip is landmark 8
+          const indexTip = landmarks[8];
+          
+          // MediaPipe coordinates are 0-1 from top-left. 
+          // Our canvas is flipped horizontally in CSS, so we have to flip the X coordinate back for collision detection
+          const hx = (1 - indexTip.x) * canvasElement.width;
+          const hy = indexTip.y * canvasElement.height;
+
+          // Check if index finger intersects with any pad
+          drumPads.forEach(pad => {
+            const px = pad.x * canvasElement.width;
+            const py = pad.y * canvasElement.height;
+            const pw = pad.w * canvasElement.width;
+            const ph = pad.h * canvasElement.height;
+
+            if (hx > px && hx < px + pw && hy > py && hy < py + ph) {
+               // Cooldown
+               if (now - pad.lastHit > 300) {
+                   pad.lastHit = now;
+                   playSound(pad.sound);
+               }
+            }
+          });
+        }
+      }
+      canvasCtx.restore();
+    }
+
+    const hands = new Hands({locateFile: (file) => {
+      return `https://cdn.jsdelivr.net/npm/@mediapipe/hands/${file}`;
+    }});
+    hands.setOptions({
+      maxNumHands: 2,
+      modelComplexity: 1,
+      minDetectionConfidence: 0.5,
+      minTrackingConfidence: 0.5
+    });
+    hands.onResults(onResults);
+
+    startBtn.addEventListener('click', async () => {
+      // Browsers require a user gesture to start AudioContext
+      audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+      startBtn.style.display = 'none';
+      statusText.innerText = 'Loading AI Models...';
+      
+      const camera = new Camera(videoElement, {
+        onFrame: async () => {
+          await hands.send({image: videoElement});
+        },
+        width: 1280,
+        height: 720
+      });
+      camera.start().then(() => {
+          statusText.innerText = 'Ready! Tap the pads with your index finger.';
+      });
+    });
+  </script>
+</body>
+</html>
