@@ -4,3 +4,6 @@ mediapipe==0.10.21
 pyautogui>=0.9.54
 numpy==1.26.4
 pynput>=1.7.6
+git add requirements.txt
+git commit -m "Fix dependencies for Render deployment"
+git push
