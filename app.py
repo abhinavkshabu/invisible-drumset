@@ -1,9 +1,14 @@
 import cv2
 import time
 import sys
+import os
 import numpy as np
 import pygame
 import mediapipe as mp
+
+# PyInstaller frozen-app support: ensure working directory is beside the .exe
+if getattr(sys, 'frozen', False):
+    os.chdir(os.path.dirname(sys.executable))
 
 from config import (
     CAMERA_SOURCE, CAMERA_WIDTH, CAMERA_HEIGHT, CAMERA_ROTATION,
@@ -214,7 +219,7 @@ def draw_hud(frame, state, hand_count, fps):
     cv2.putText(frame, mode_text, (50, 35),
                 cv2.FONT_HERSHEY_SIMPLEX, HUD_FONT_SCALE, mode_color, HUD_THICKNESS)
 
-    cv2.putText(frame, "Hands: {hand_count}", (50, 60),
+    cv2.putText(frame, f"Hands: {hand_count}", (50, 60),
                 cv2.FONT_HERSHEY_SIMPLEX, 0.5, (180, 180, 180), 1)
     
     autoplay_status = "ON" if getattr(state, "autoplay_active", False) else "OFF"

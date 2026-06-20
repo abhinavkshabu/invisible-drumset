@@ -15,13 +15,13 @@ HUD_FONT_SCALE = 0.7
 HUD_THICKNESS = 2
 
 DRUM_PADS = [
-    {"name" : " Crash", "color": (255,200,0), "rect" : (0.05,0.1,0.2,0.3), "sound": "crash"},
-    {"name" : "Hi-Hat", "color": (0,200,255), "rect": (0.30, 0.1,0.2,0.3), "sound": "hightom"},
+    {"name" : "Crash", "color": (255,200,0), "rect" : (0.05,0.1,0.2,0.3), "sound": "crash"},
+    {"name" : "Hi-Tom", "color": (0,200,255), "rect": (0.30, 0.1,0.2,0.3), "sound": "hightom"},
     {"name" : "Mid Tom", "color": (200,150,0), "rect": (0.80,0.1,0.2,0.3), "sound": "ride"},
 
     {"name" : "Hi-Hat", "color": (200,255,0), "rect": (0.05,0.5,0.2,0.3), "sound": "hihat"},
     {"name" : "Snare", "color" : (0,255,255), "rect" : (0.30,0.5,0.2,0.3), "sound": "snare"},
-    {"name" : "kick", "color" : (200,0,255), "rect" : (0.55,0.5,0.2,0.03), "sound" : "kick"},
+    {"name" : "Kick", "color" : (200,0,255), "rect" : (0.55,0.5,0.2,0.3), "sound" : "kick"},
     {"name" : "Floor Tom", "color": (150,0,255),"rect":(0.80,0.5,0.2,0.3), "sound": "floortom"}
 
 ]
