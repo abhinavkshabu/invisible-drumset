@@ -48,8 +48,8 @@ HTML_PAGE = """
 <body>
     <div class="box">
         <h1>Invisible Drum Kit</h1>
-        <p>Play drums in the air using AI hand tracking. Download and run on your computer with a webcam.</p>
-        <a class="btn" href="https://github.com/abhinavkshabu/invisible-drumset/archive/refs/heads/main.zip">Download App</a>
+        <p>Play drums in the air using AI hand tracking. Download the standalone app and run on your Windows PC with a webcam &mdash; no Python required.</p>
+        <a class="btn" href="https://github.com/abhinavkshabu/invisible-drumset/releases/latest">Download App (.exe)</a>
         <div class="github">
             <a href="https://github.com/abhinavkshabu/invisible-drumset" target="_blank">View on GitHub</a>
         </div>
