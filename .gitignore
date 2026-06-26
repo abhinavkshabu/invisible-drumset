@@ -12,6 +12,7 @@ env/
 # PyInstaller build artifacts
 build/
 dist/
+*.zip
 
 # IDE / Editor
 .vscode/
