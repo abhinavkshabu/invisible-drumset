@@ -1,4 +1,4 @@
-# Invisible Drum Kit 🥁🔥
+# Invisible Drum Kit
 
 ever wanted to play drums but you're broke and your parents said no? same. so i built this — just wave your hands in front of your webcam and it actually plays drum sounds. no drums needed lol
 
@@ -77,4 +77,4 @@ build.spec       — pyinstaller config
 
 ---
 
-made by [@abhinavkshabu](https://github.com/abhinavkshabu) ✌️
+made by [@abhinavkshabu](https://github.com/abhinavkshabu) :P
