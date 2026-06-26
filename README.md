@@ -2,7 +2,7 @@
 
 ever wanted to play drums but you're broke and your parents said no? same. so i built this — just wave your hands in front of your webcam and it actually plays drum sounds. no drums needed lol
 
-> **dont have python?** just download the exe from [releases](https://github.com/abhinavkshabu/invisible-drumset/releases/latest) and run it
+> **dont have python??** ***just download the exe*** from [releases](https://github.com/abhinavkshabu/invisible-drumset/releases/latest) and run it
 
 ## what it does
 
