@@ -1,80 +1,80 @@
-# Invisible Drum Kit 🥁
+# Invisible Drum Kit 🥁🔥
 
-[![Download](https://img.shields.io/github/v/release/abhinavkshabu/invisible-drumset?label=Download%20.exe&style=for-the-badge&color=00e5ff)](https://github.com/abhinavkshabu/invisible-drumset/releases/latest)
+ever wanted to play drums but you're broke and your parents said no? same. so i built this — just wave your hands in front of your webcam and it actually plays drum sounds. no drums needed lol
 
-Play drums in the air using AI-powered hand tracking. No physical drums needed — just your webcam and your hands.
+> **dont have python?** just download the exe from [releases](https://github.com/abhinavkshabu/invisible-drumset/releases/latest) and run it
 
-> **Just want to try it?** Grab the `.exe` from the [latest release](https://github.com/abhinavkshabu/invisible-drumset/releases/latest) — no Python needed!
+## what it does
 
-## Features
+- uses your **webcam + AI hand tracking** to detect your fingers in real time
+- there are **8 drum pads** on screen (kick, snare, hi-hat, crash, toms, ride)
+- just **flick your index finger down** over a pad and it makes the sound
+- the drum sounds are **generated with code** — no audio files needed at all
+- press `b` for an **autoplay beat** if you just wanna vibe
+- works with your laptop webcam, USB cam, or even your phone camera (DroidCam etc)
 
-- **Real-time hand tracking** using MediaPipe — detects both hands simultaneously
-- **8 drum pads** rendered on screen: Crash, Hi-Tom, Ride, Hi-Hat, Snare, Kick, Mid Tom, Floor Tom
-- **Strike detection** via downward flick of your index finger over a drum pad
-- **Synthesized drum sounds** generated with NumPy — no external audio files needed
-- **Autoplay beat** (`b` key) — plays a basic kick-snare-hihat loop
-- **Smoothed tracking** with motion trails for a polished visual experience
-- **Camera flexibility** — supports webcam, USB cameras, and IP cameras (e.g., DroidCam)
+## demo
 
-## Requirements
+just run it and start flicking your fingers over the pads. trust me it works
 
-- Python 3.10+
-- Webcam or IP camera
-- Windows / macOS / Linux
-
-## Quick Start
+## how to run
 
 ```bash
-# Install dependencies
 pip install -r requirements.txt
-
-# Run the app
 python app.py
 ```
 
-## Controls
+thats literally it
 
-| Key | Action |
-|-----|--------|
-| **Flick index finger down** | Strike a drum pad |
-| `b` | Toggle autoplay beat |
-| `q` | Quit |
+## controls
 
-## How It Works
+| do this | what happens |
+|---------|-------------|
+| flick finger down over a pad | plays the drum sound |
+| press `b` | toggles autoplay beat on/off |
+| press `q` | quit |
 
-1. MediaPipe Hands detects your index fingertips in real-time
-2. The app tracks downward flicking motion (velocity-based strike detection)
-3. When a flick is detected over a drum pad, the corresponding synthesized sound plays
-4. Visual feedback includes pad flash animations, fingertip trails, and an action HUD
+## how it works (for the nerds)
 
-## Building a Standalone Executable
+1. **MediaPipe** detects your hand landmarks through the webcam
+2. the app tracks your index fingertip and watches for a fast downward flick
+3. if the flick happens over a drum pad → boom, sound plays
+4. all the sounds are synthesized using **numpy** (sine waves, noise, envelopes etc)
+5. **pygame** handles audio playback, **opencv** handles the camera + drawing
+
+## build an exe
+
+if you wanna share it with someone who doesnt have python:
 
 ```bash
-# Builds InvisibleDrumKit.exe using PyInstaller
 python build.py
 ```
 
-The output will be in `dist/InvisibleDrumKit/`.
+gives you `dist/InvisibleDrumKit/InvisibleDrumKit.exe`
 
-## Project Structure
+## files
 
 ```
-├── app.py             # Main application — hand tracking + drum logic
-├── config.py          # All tunable parameters (camera, pads, thresholds)
-├── hand_tracker.py    # Standalone hand-tracking demo/template
-├── launcher.py        # Minimal web landing page server
-├── build.py           # PyInstaller build automation script
-├── build.spec         # PyInstaller spec with MediaPipe/OpenCV bundling
-└── requirements.txt   # Python dependencies
+app.py           — the main thing, all the logic lives here
+config.py        — settings (camera, pad layout, thresholds)
+hand_tracker.py  — basic hand tracking template i started with
+build.py         — builds the exe with pyinstaller
+build.spec       — pyinstaller config
 ```
 
-## Tech Stack
+## built with
 
-- **OpenCV** — camera capture and rendering
-- **MediaPipe** — hand landmark detection
-- **NumPy** — synthetic drum sound generation
-- **Pygame** — audio playback
+- opencv
+- mediapipe
+- numpy
+- pygame
 
-## License
+## requirements
 
-MIT
+- python 3.10+
+- a webcam
+- hands (preferably 2)
+
+---
+
+made by [@abhinavkshabu](https://github.com/abhinavkshabu) ✌️
