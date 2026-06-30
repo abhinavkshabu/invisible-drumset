@@ -13,6 +13,7 @@ env/
 build/
 dist/
 *.zip
+*.exe
 
 # IDE / Editor
 .vscode/
