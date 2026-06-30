@@ -1,8 +1,23 @@
-# Invisible Drum Kit
+# 🥁 Invisible Drum Kit
 
 ever wanted to play drums but you're broke and your parents said no? same. so i built this — just wave your hands in front of your webcam and it actually plays drum sounds. no drums needed lol
 
-> **dont have python??** ***just download the exe*** from [releases](https://github.com/abhinavkshabu/invisible-drumset/releases/latest) and run it
+## ⬇️ download & run (no python needed)
+
+[![Download Latest Release](https://img.shields.io/github/v/release/abhinavkshabu/invisible-drumset?label=Download%20.exe&style=for-the-badge&color=brightgreen)](https://github.com/abhinavkshabu/invisible-drumset/releases/latest)
+
+1. **Download** → [`InvisibleDrumKit-v1.0.0-windows.zip`](https://github.com/abhinavkshabu/invisible-drumset/releases/download/v1.0.0/InvisibleDrumKit-v1.0.0-windows.zip)
+2. **Extract** the zip to any folder
+3. **Open** the extracted `InvisibleDrumKit` folder
+4. **Double-click** `InvisibleDrumKit.exe` to launch
+5. **Allow webcam access** if Windows asks
+6. Show your hands and start drumming! 🎶
+
+> [!IMPORTANT]
+> **Do NOT move `InvisibleDrumKit.exe` out of its folder.** It needs the `_internal` folder next to it to work. Always run it from inside the extracted folder.
+
+> [!TIP]
+> If Windows SmartScreen pops up, click **"More info"** → **"Run anyway"**. The app is safe — it just isn't code-signed.
 
 ## what it does
 
@@ -17,15 +32,6 @@ ever wanted to play drums but you're broke and your parents said no? same. so i 
 
 just run it and start flicking your fingers over the pads. trust me it works
 
-## how to run
-
-```bash
-pip install -r requirements.txt
-python app.py
-```
-
-thats literally it
-
 ## controls
 
 | do this | what happens |
@@ -33,6 +39,28 @@ thats literally it
 | flick finger down over a pad | plays the drum sound |
 | press `b` | toggles autoplay beat on/off |
 | press `q` | quit |
+
+## troubleshooting
+
+| problem | fix |
+|---------|-----|
+| **Windows SmartScreen blocks it** | click "More info" → "Run anyway" |
+| **Antivirus flags the exe** | add the extracted folder to your antivirus exclusions — it's a false positive from PyInstaller |
+| **"Camera not found" error** | make sure no other app is using the webcam (close Zoom, Teams, etc) |
+| **Black screen / no video** | try a different camera — edit `config.py` and change `CAMERA_SOURCE = 0` to `1` |
+| **Laggy / low FPS** | close other heavy apps; the AI hand tracking needs some CPU |
+| **exe crashes immediately** | make sure you extracted the full zip — don't run the exe from inside the zip |
+
+## how to run from source
+
+if you have python and wanna run it directly:
+
+```bash
+pip install -r requirements.txt
+python app.py
+```
+
+thats literally it
 
 ## how it works (for the nerds)
 
@@ -42,9 +70,9 @@ thats literally it
 4. all the sounds are synthesized using **numpy** (sine waves, noise, envelopes etc)
 5. **pygame** handles audio playback, **opencv** handles the camera + drawing
 
-## build an exe
+## build an exe yourself
 
-if you wanna share it with someone who doesnt have python:
+if you wanna build it from source:
 
 ```bash
 python build.py
@@ -69,7 +97,7 @@ build.spec       — pyinstaller config
 - numpy
 - pygame
 
-## requirements
+## requirements (for running from source)
 
 - python 3.10+
 - a webcam
