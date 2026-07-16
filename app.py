@@ -2,16 +2,12 @@ import time
 import sys
 import os
 import traceback
-
-# PyInstaller frozen-app support: ensure working directory is beside the .exe
 if getattr(sys, 'frozen', False):
     os.chdir(os.path.dirname(sys.executable))
 
 
 def _show_fatal_error(error_msg):
-    """Log crash to file + show MessageBox so the user always sees the error."""
     print(f"\n[FATAL ERROR]\n{error_msg}")
-    # Write crash log next to the executable / script
     try:
         log_path = os.path.join(os.path.dirname(os.path.abspath(sys.argv[0])), "crash_log.txt")
         with open(log_path, "w", encoding="utf-8") as f:
@@ -24,7 +20,7 @@ def _show_fatal_error(error_msg):
         print(f"[INFO] Crash log saved to: {log_path}")
     except Exception:
         pass
-    # Show a Windows message box so the error is visible even if the console closes
+    
     if getattr(sys, 'frozen', False):
         try:
             import ctypes
@@ -33,16 +29,16 @@ def _show_fatal_error(error_msg):
                 f"Invisible Drum Kit crashed:\n\n{error_msg}\n\n"
                 f"A crash log has been saved next to the exe.",
                 "Invisible Drum Kit — Error",
-                0x10  # MB_ICONERROR
+                0x10 
             )
         except Exception:
             pass
-    # Keep console open so the user can read the error
+    
     if getattr(sys, 'frozen', False):
         input("\nPress Enter to exit...")
 
 
-# ── Import heavy dependencies (most common crash point in .exe builds) ──────
+
 try:
     import cv2
     import numpy as np
