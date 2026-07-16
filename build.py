@@ -1,14 +1,3 @@
-"""
-Convenience build script for Invisible Drum Kit.
-
-Usage:
-    python build.py
-
-This will:
-  1. Install pyinstaller if it's missing.
-  2. Run pyinstaller with build.spec.
-  3. Print the output path.
-"""
 
 import subprocess
 import sys
@@ -19,7 +8,7 @@ from pathlib import Path
 def ensure_pyinstaller():
     """Install PyInstaller if it isn't already available."""
     try:
-        import PyInstaller  # noqa: F401
+        import PyInstaller
         print("[OK] PyInstaller is already installed.")
     except ImportError:
         print("[INFO] Installing PyInstaller...")
