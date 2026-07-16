@@ -6,7 +6,7 @@ ever wanted to play drums but you're broke and your parents said no? same. so i 
 
 [![Download Latest Release](https://img.shields.io/github/v/release/abhinavkshabu/invisible-drumset?label=Download%20.exe&style=for-the-badge&color=brightgreen)](https://github.com/abhinavkshabu/invisible-drumset/releases/latest)
 
-1. **Download** → [`InvisibleDrumKit-v1.0.0-windows.zip`](https://github.com/abhinavkshabu/invisible-drumset/releases/download/v1.0.0/InvisibleDrumKit-v1.0.0-windows.zip)
+1. **Download** → [`InvisibleDrumKit-v1.0.1-windows.zip`](https://github.com/abhinavkshabu/invisible-drumset/releases/download/v1.0.1/InvisibleDrumKit-v1.0.1-windows.zip)
 2. **Extract** the zip to any folder
 3. **Open** the extracted `InvisibleDrumKit` folder
 4. **Double-click** `InvisibleDrumKit.exe` to launch
@@ -49,7 +49,11 @@ just run it and start flicking your fingers over the pads. trust me it works
 | **"Camera not found" error** | make sure no other app is using the webcam (close Zoom, Teams, etc) |
 | **Black screen / no video** | try a different camera — edit `config.py` and change `CAMERA_SOURCE = 0` to `1` |
 | **Laggy / low FPS** | close other heavy apps; the AI hand tracking needs some CPU |
-| **exe crashes immediately** | make sure you extracted the full zip — don't run the exe from inside the zip |
+| **exe crashes immediately** | make sure you extracted the full zip — don't run the exe from inside the zip. check for a `crash_log.txt` file next to the exe for details |
+| **exe shows an error popup** | read the error message and check `crash_log.txt` — it tells you exactly what went wrong |
+
+> [!TIP]
+> If the app crashes, it now saves a `crash_log.txt` file next to the exe with the full error details. share that file if you need help debugging!
 
 ## how to run from source
 
@@ -102,6 +106,18 @@ build.spec       — pyinstaller config
 - python 3.10+
 - a webcam
 - hands (preferably 2)
+
+## changelog
+
+### v1.0.1
+- fixed: exe crashing instantly with no error message — now shows a popup + saves `crash_log.txt`
+- added proper error handling for import failures (missing DLLs, incomplete extraction, etc.)
+
+### v1.0.0
+- initial release
+- hand tracking drum kit with 7 pads
+- synthesized drum sounds (no audio files needed)
+- autoplay beat mode
 
 ---
 

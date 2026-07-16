@@ -1,22 +1,69 @@
-import cv2
 import time
 import sys
 import os
-import numpy as np
-import pygame
-import mediapipe as mp
+import traceback
 
 # PyInstaller frozen-app support: ensure working directory is beside the .exe
 if getattr(sys, 'frozen', False):
     os.chdir(os.path.dirname(sys.executable))
 
-from config import (
-    CAMERA_SOURCE, CAMERA_WIDTH, CAMERA_HEIGHT, CAMERA_ROTATION,
-    SMOOTHING_ALPHA,
-    TAP_Y_HISTORY_SIZE,
-    WINDOW_NAME, HUD_FONT_SCALE, HUD_THICKNESS,
-    DRUM_PADS, DRUM_PAD_ALPHA, DRUM_VELOCITY_THRESHOLD, DRUM_COOLDOWN
-)
+
+def _show_fatal_error(error_msg):
+    """Log crash to file + show MessageBox so the user always sees the error."""
+    print(f"\n[FATAL ERROR]\n{error_msg}")
+    # Write crash log next to the executable / script
+    try:
+        log_path = os.path.join(os.path.dirname(os.path.abspath(sys.argv[0])), "crash_log.txt")
+        with open(log_path, "w", encoding="utf-8") as f:
+            f.write(f"Invisible Drum Kit — Crash Log\n")
+            f.write(f"Time: {time.strftime('%Y-%m-%d %H:%M:%S')}\n")
+            f.write(f"Python: {sys.version}\n")
+            f.write(f"Frozen: {getattr(sys, 'frozen', False)}\n")
+            f.write(f"Exe: {sys.executable}\n\n")
+            f.write(error_msg)
+        print(f"[INFO] Crash log saved to: {log_path}")
+    except Exception:
+        pass
+    # Show a Windows message box so the error is visible even if the console closes
+    if getattr(sys, 'frozen', False):
+        try:
+            import ctypes
+            ctypes.windll.user32.MessageBoxW(
+                0,
+                f"Invisible Drum Kit crashed:\n\n{error_msg}\n\n"
+                f"A crash log has been saved next to the exe.",
+                "Invisible Drum Kit — Error",
+                0x10  # MB_ICONERROR
+            )
+        except Exception:
+            pass
+    # Keep console open so the user can read the error
+    if getattr(sys, 'frozen', False):
+        input("\nPress Enter to exit...")
+
+
+# ── Import heavy dependencies (most common crash point in .exe builds) ──────
+try:
+    import cv2
+    import numpy as np
+    import pygame
+    import mediapipe as mp
+
+    from config import (
+        CAMERA_SOURCE, CAMERA_WIDTH, CAMERA_HEIGHT, CAMERA_ROTATION,
+        SMOOTHING_ALPHA,
+        TAP_Y_HISTORY_SIZE,
+        WINDOW_NAME, HUD_FONT_SCALE, HUD_THICKNESS,
+        DRUM_PADS, DRUM_PAD_ALPHA, DRUM_VELOCITY_THRESHOLD, DRUM_COOLDOWN
+    )
+except Exception:
+    _show_fatal_error(
+        f"Failed to import required libraries.\n\n{traceback.format_exc()}\n"
+        f"If you are running the .exe, make sure you extracted the FULL zip\n"
+        f"and are running InvisibleDrumKit.exe from inside the extracted folder.\n"
+        f"Do NOT move the .exe out of its folder — it needs the _internal folder."
+    )
+    sys.exit(1)
 
 mp_hands = mp.solutions.hands
 mp_draw = mp.solutions.drawing_utils
@@ -395,4 +442,8 @@ def main():
 
 
 if __name__ == "__main__":
-    main()
+    try:
+        main()
+    except Exception:
+        _show_fatal_error(traceback.format_exc())
+        sys.exit(1)
