@@ -11,12 +11,12 @@ ever wanted to play drums but you're broke and your parents said no? same. so i 
 3. **open** the `InvisibleDrumKit` folder
 4. **double click** `InvisibleDrumKit.exe`
 5. **allow camera** if windows asks
-6. start drumming 🥁🔥
+6. start drumming
 
-##!IMPORTANT
+##IMPORTANT
 > **dont move the exe out of its folder!!** it needs the `_internal` folder right next to it or it wont work. just run it from inside the folder you extracted
 
-> ##!TIP
+##TIP
 > windows smartscreen might freak out and block it. just click **"More info"** → **"Run anyway"**. its safe i promise, its just not signed because im broke lol
 
 ## what it does
@@ -24,7 +24,7 @@ ever wanted to play drums but you're broke and your parents said no? same. so i 
 - uses your **webcam + AI** to track your hands in real time
 - **7 drum pads** on screen — kick, snare, hi-hat, crash, toms, ride, floor tom
 - **flick your finger down** over a pad and boom it makes the sound
-- all the sounds are **made with math** — no audio files at all, pure code 🤓
+- all the sounds are **made with math** — no audio files at all, pure code 
 - press `b` for a sick **auto beat** if you just wanna vibe
 - works with laptop cam, USB webcam, or even your **phone camera** (DroidCam etc)
 
@@ -42,7 +42,7 @@ just download it and start flicking your fingers over the pads. trust me bro it 
 
 thats it. thats all the controls lol
 
-## it doesnt work!! 😡
+## it doesnt work!!
 
 chill. check this:
 
