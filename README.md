@@ -13,7 +13,7 @@ ever wanted to play drums but you're broke and your parents said no? same. so i 
 5. allow camera if windows asks
 6. start drumming
 
-> windows smartscreen might freak out and block it. just click **"More info"** → **"Run anyway"**. its safe i promise, its just not signed because im broke lol
+> windows smartscreen might freak out and block it. just click **"More info"** **"Run anyway"**. its safe i promise, its just not signed because im broke lol
 
 ## what it does
 
